@@ -1,8 +1,12 @@
 require('dotenv').config();
 const express = require("express");
 
-
 const app = express();
+
+app.get("/getRestaurants", (req,res) => {
+    console.log("Get All Restaurants");
+})
+
 
 const port = process.env.PORT || 2020;
 
