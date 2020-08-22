@@ -81,7 +81,6 @@ app.put("/api/v1/restaurants/:id", async (req,res) => {
         const results = await db.query("UPDATE restaurants SET name = $1, location = $2, price_range = $3 where id = $4 returning *",
         [req.body.name, req.body.location, req.body.price_range, req.params.id]);
 
-        console.log(results);
         res.status(200).json({
         status: "success",
         data:{
@@ -97,12 +96,19 @@ app.put("/api/v1/restaurants/:id", async (req,res) => {
 
 
 //delete
-app.delete("/api/v1/restaurants/:id", (req,res) => {
-
-    res.status(204).json({
+app.delete("/api/v1/restaurants/:id", async (req,res) => {
+    try {
+        const results = await db.query("DELETE FROM restaurants where id = $1 returning *", [req.params.id]);
+        res.status(204).json({
         status: "success"
         
     });
+        console.log(results);
+        console.log(results.rows[0]);
+    } catch (err) {
+        console.log(err);
+    }
+    
 
 });
 
