@@ -15,4 +15,4 @@ SELECT * FROM reviews;
 
 SELECT restaurant_id, Avg(rating), count(rating) FROM reviews group by restaurant_id;
 
-SELECT * FROM restaurants left join (select restaurant_id, COUNT(*), TRUNC(AVG(rating), 1) as average_rating FROM reviews group by restaurant_id) reviews on restaurant.id = reviews.restaurant_id;
+SELECT * FROM restaurants left join (select restaurant_id, COUNT(*), TRUNC(AVG(rating), 1) as average_rating FROM reviews group by restaurant_id) reviews on restaurants.id = reviews.restaurant_id;

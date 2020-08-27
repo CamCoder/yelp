@@ -2,6 +2,7 @@ import React, {useEffect, useContext} from 'react';
 import RestaurantFinder from "../apis/RestaurantFinder";
 import { RestaurantsContext } from '../context/RestaurantsContext';
 import {useHistory} from "react-router-dom";
+import StarRating from './StarRating'
 
 const RestaurantsList = (props) => {
 
@@ -43,6 +44,17 @@ const RestaurantsList = (props) => {
         history.push(`/restaurants/${id}`);
     }
 
+    const renderRatings = (restaurant) => {
+        if(!restaurant.count){
+            return <span className="text-warning ml-1">0 reviews</span>
+        }
+        
+        return <>
+        <StarRating rating={restaurant.id}/>
+        <span className="text-warning ml-1">({restaurant.count})</span>
+        </>
+    }
+
     return (
         <div className="list-group">
             <table className="table table-hover table-dark">
@@ -58,13 +70,13 @@ const RestaurantsList = (props) => {
                 </thead>
                 <tbody>
 
-                    {restaurants && restaurants.map(restaurant => {
+                    {restaurants && restaurants.map((restaurant) => {
                         return (
                         <tr onClick={() => handleRestaurantSelect(restaurant.id)} key={restaurant.id}>
                             <td>{restaurant.name}</td>
                             <td>{restaurant.location}</td>
                             <td>{"$".repeat(restaurant.price_range)}</td>
-                            <td>Reviews</td>
+                            <td>{renderRatings(restaurant)}</td>
                             <td><button onClick={ (e) => handleUpdate(e, restaurant.id)} className="btn btn-warning">Update</button></td>
                             <td><button onClick={ (e) => handleDelete(e, restaurant.id)} className="btn btn-danger">Delete</button></td>
                         </tr>
